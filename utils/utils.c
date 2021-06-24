@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/06/16 13:14:12 by ztan          #+#    #+#                 */
-/*   Updated: 2021/06/24 15:44:31 by ztan          ########   odam.nl         */
+/*   Created: 2021/06/24 15:03:09 by ztan          #+#    #+#                 */
+/*   Updated: 2021/06/24 15:45:50 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	main(int argc, char **argv)
+void	print_args(t_data *data)
 {
-	t_data	*data;
-	
-	data = NULL;
-	if (argc != 5)
-		return (str_error("Error: incorrect arguments\n"));
-	if (!(data = get_args(argv)))
-		return (str_error("Error: incorrect arguments\n"));
-	print_args(data);
-	create_philo_threads(data);
-	// test_threads(data);
-	// printf("ended\n");
-	return (0);
+	printf("num_philo[%d], t_die[%d], t_eat[%d], t_sleep[%d]\n", data->n_philos, data->t_die, data->t_eat, data->t_sleep);
+}
+
+int	str_error(char *str)
+{
+	if (str)
+		write(1, str, ft_strlen(str));
+	return (1);
+}
+
+int	clear_all(t_data *data, char *str)
+{
+	if (data)
+		free(data);
+	if (str)
+		str_error(str);
+	return (1);
 }

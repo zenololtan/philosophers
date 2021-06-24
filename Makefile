@@ -1,13 +1,25 @@
 NAME = philosophers
 
-# UTILS =	 \
+OBJ_DIR = obj
+
+UTILS =		utils.c
+
+PARSER =	parser.c
+
+PHILOS =	init_philos.c
 
 UTILS_PREFIX = $(addprefix utils/, $(UTILS))
 
-SRC =	main.c \
-		# $(UTILS_PREFIX)
+PARSER_PREFIX = $(addprefix parser/, $(PARSER))
 
-OBJ = $(SRC:.c=.o)
+PHILOS_PREFIX = $(addprefix philos/, $(PHILOS))
+
+SRC =	main.c \
+		$(UTILS_PREFIX) \
+		$(PARSER_PREFIX) \
+		$(PHILOS_PREFIX)
+
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -23,12 +35,13 @@ $(NAME): $(OBJ)
 		@make bonus -C lft/
 		@$(CC) $(FLAGS) $(OBJ) $(INCLUDES) $(LIBFT) -lft -Llft -g -o $(NAME)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c
+		@mkdir -p $(@D)
 		$(CC) $(FLAGS) $(INCLUDES) $(LIBFT) -g -c $< -o $@
 
 clean:
 		@make clean -C lft/
-		rm -f $(OBJ)
+		@rm -rf $(OBJ_DIR)
 
 fclean: clean
 		@make fclean -C lft/

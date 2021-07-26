@@ -6,16 +6,11 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:55:57 by ztan          #+#    #+#                 */
-/*   Updated: 2021/06/24 15:54:34 by ztan          ########   odam.nl         */
+/*   Updated: 2021/07/26 23:55:50 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-// int	init_err(int *tids)
-// {
-	
-// }
 
 void	*clear_philos(t_philo **philos, int n)
 {
@@ -55,8 +50,6 @@ t_philo	**init_philos(t_data **data, int n)
 		if (!philos[i])
 			return (clear_philos(philos, n));
 		philos[i]->philo = n;
-		philos[i]->left = false;
-		philos[i]->right = false;
 		philos[i]->data = *data;
 		i++;
 	}

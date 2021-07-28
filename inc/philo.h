@@ -42,6 +42,7 @@ t_data	*get_args(char **argv);
 int	str_error(char *str);
 int	clear_all(t_data *data, char *str);
 void	*free_data(t_data *data);
+void	*free_philos(t_philo **data);
 
 //philos
 int	create_philo_threads(t_data *data);

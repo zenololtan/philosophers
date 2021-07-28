@@ -42,8 +42,10 @@ t_data	*init_struct(int n)
 	data = (t_data*)malloc(sizeof(*data));
 	if (!data)
 		return (NULL);
-	data->forks = (pthread_mutex_t**)malloc(sizeof(*data->forks) * n);
+	printf("Data malloced\n");
+	data->forks = (pthread_mutex_t**)malloc(sizeof(*data->forks) * (n + 1));
 	data->forks[n] = NULL;
+	printf("Mutex malloced\n");
 	if (!data->forks)
 		return (free_data(data));
 	while (i < n)
@@ -51,11 +53,14 @@ t_data	*init_struct(int n)
 		data->forks[i] = (pthread_mutex_t*)malloc(sizeof(**data->forks));
 		if (!data->forks[i])
 			return (free_data(data));
+		printf("malloced a mutex\n");
 		err = pthread_mutex_init(data->forks[i], NULL);
 		if (err)
 			return (free_data(data));
 		i++;
 	}
+	printf("Individual mutexes malloced\n");
+	printf("amount of mutexes/forks = %i\n", i);
 	return (data);
 }
 

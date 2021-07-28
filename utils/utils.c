@@ -45,6 +45,20 @@ void	*free_data(t_data *data)
 	return (NULL);
 }
 
+void	*free_philos(t_philo **data)
+{
+	int	i;
+
+	i = 0;
+	while (data[i])
+	{
+		free(data[i]);
+		i++;
+	}
+	free(data);
+	return (NULL);
+}
+
 int	clear_all(t_data *data, char *str)
 {
 	if (data)

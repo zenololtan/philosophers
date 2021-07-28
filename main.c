@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <philo.h>
-
+#include <sys/wait.h>
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -22,9 +22,10 @@ int	main(int argc, char **argv)
 	if (!(data = get_args(argv)))
 		return (str_error("Error: incorrect arguments\n"));
 	print_args(data);
-	// create_philo_threads(data);
+	create_philo_threads(data);
 	// test_threads(data);
 	clear_all(data, NULL);
+	wait(NULL);
 	printf("ended\n");
 	// while(1) {}
 	return (0);

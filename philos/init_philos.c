@@ -12,45 +12,37 @@
 
 #include <philo.h>
 
-void	*clear_philos(t_philo **philos, int n)
+void	test(void)
 {
-	int i;
-
-	i = 0;
-	while (i < n)
-	{
-		free(philos[i]);
-		i++;
-	}
-	free(philos);
-	return (NULL);
+	printf("this is a test function\n");
 }
 
 void	*philo(void *ptr)
 {
-	t_philo *philo;
-	
+	t_philo	*philo;
 	philo = (t_philo*)ptr;
-	printf("THEAD[%i]\n", philo->philo);
+	printf("PHILO[%i]\n", philo->philo);
+	test();
 	return (NULL);
 }
 
-t_philo	**init_philos(t_data **data, int n)
+t_philo	**init_philos(t_data *data, int n)
 {
-	t_philo	**philos;
-	int i;
-	
-	philos = (t_philo**)malloc(sizeof(*philo) * n);
+	t_philo **philos;
+	int	i;
+
+	i = 0;
+	philos = (t_philo**)malloc(sizeof(*philos) * (n + 1));
 	if (!philos)
 		return (NULL);
-	i = 0;
+	philos[n] = NULL;
 	while (i < n)
 	{
-		philos[i] = (t_philo*)malloc(sizeof(**philos));
+		philos[i] = (t_philo*)malloc(sizeof(**philo));
 		if (!philos[i])
-			return (clear_philos(philos, n));
-		philos[i]->philo = n;
-		philos[i]->data = *data;
+			return (free_philos(philos));
+		philos[i]->philo = i + 1;
+		philos[i]->data = data;
 		i++;
 	}
 	return (philos);
@@ -58,21 +50,29 @@ t_philo	**init_philos(t_data **data, int n)
 
 int	create_philo_threads(t_data *data)
 {
-	int	i;
-	int	err;
-	pthread_t	tids[data->n_philos];
-	t_philo	**philos;
+	int			i;
+	int			err;
+	pthread_t	tids[data->n_philos - 1];
+	t_philo		**philos;
 
-	philos = init_philos(&data, data->n_philos);
+	philos = init_philos(data, data->n_philos);
 	if (!philos)
 		return (str_error("Error: couldnt create philos\n"));
 	i = 0;
 	while (i < data->n_philos)
 	{
-		err = pthread_create(&(tids[i]), NULL, &philo, (void*)&philos[i]);
+		err = pthread_create(&(tids[i]), NULL, &philo, (void*)philos[i]);
 		if (err != 0)
 			return (str_error("Error: couldnt create a thread\n"));
 		i++;
 	}
+	i = 0;
+	while (i < data->n_philos)
+	{
+		pthread_join(tids[i], NULL);
+		i++;
+	}
+	printf("amount of philos created = %i\n", i);
+	free_philos(philos);
 	return (0);
 }

@@ -1,6 +1,5 @@
-NAME = philosophers
-
-OBJ_DIR = obj
+NAME =		philosophers
+OBJ_DIR =	obj
 
 UTILS =		utils.c
 
@@ -14,30 +13,38 @@ PARSER_PREFIX = $(addprefix parser/, $(PARSER))
 
 PHILOS_PREFIX = $(addprefix philos/, $(PHILOS))
 
-SRC =	main.c \
-		$(UTILS_PREFIX) \
-		$(PARSER_PREFIX) \
-		$(PHILOS_PREFIX)
+SRC =		main.c \
+			$(UTILS_PREFIX) \
+			$(PARSER_PREFIX) \
+			$(PHILOS_PREFIX)
 
-OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+OBJ =		$(SRC:%.c=$(OBJ_DIR)/%.o)
 
-FLAGS = -Wall -Wextra -Werror
+TAIL =		-pthread
 
-CC = gcc
+FLAGS =		-Wall -Wextra -Werror
 
-INCLUDES = -Iinc
+CC =		gcc
 
-LIBFT = -Ilft/
+INC =		-Iinc
+
+LFT =		-Ilft
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+debug: $(OBJ)
 		@make bonus -C lft/
-		@$(CC) $(FLAGS) $(OBJ) $(INCLUDES) $(LIBFT) -lft -Llft -g -o $(NAME)
+		@clang $(FLAGS) -fsanitize=thread $(OBJ) $(INC) $(LFT) -lft -Llft $(TAIL) -g -o $(NAME)
+
+$(NAME): $(OBJ)
+	@make bonus -C lft/
+	@$(CC) $(FLAGS) $^ $(INC) $(LFT) $(TAIL) -lft -Llft -o $@
+	@echo "Succesfully compiled $(NAME)"
 
 $(OBJ_DIR)/%.o: %.c
-		@mkdir -p $(@D)
-		$(CC) $(FLAGS) $(INCLUDES) $(LIBFT) -g -c $< -o $@
+	@mkdir -p $(@D)
+	@echo "Compiling $@"
+	@$(CC) -c $(FLAGS) $(INC) $(LFT) $< $(TAIL) -o $@
 
 clean:
 		@make clean -C lft/

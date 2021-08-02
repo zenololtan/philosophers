@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:55:57 by ztan          #+#    #+#                 */
-/*   Updated: 2021/07/26 23:55:50 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/08/02 19:53:45 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_philo	**init_philos(t_data *data, int n)
 	philos[n] = NULL;
 	while (i < n)
 	{
-		philos[i] = (t_philo*)malloc(sizeof(**philo));
+		philos[i] = (t_philo*)malloc(sizeof(**philos));
 		if (!philos[i])
 			return (free_philos(philos));
 		philos[i]->philo = i + 1;

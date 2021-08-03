@@ -1,11 +1,15 @@
 NAME =		philosophers
+
 OBJ_DIR =	obj
 
-UTILS =		utils.c
+UTILS =		utils.c \
+			libft_utils.c \
+			time_keep.c
 
 PARSER =	parser.c
 
-PHILOS =	init_philos.c
+PHILOS =	init_philos.c \
+			actions.c \
 
 UTILS_PREFIX = $(addprefix utils/, $(UTILS))
 
@@ -28,23 +32,19 @@ CC =		gcc
 
 INC =		-Iinc
 
-LFT =		-Ilft
-
 all: $(NAME)
 
 debug: $(OBJ)
-		@make bonus -C lft/
-		@clang $(FLAGS) -fsanitize=thread $(OBJ) $(INC) $(LFT) -lft -Llft $(TAIL) -g -o $(NAME)
+	@clang $(FLAGS) -fsanitize=thread $(OBJ) $(INC) $(TAIL) -g -o $(NAME)
 
 $(NAME): $(OBJ)
-	@make bonus -C lft/
-	@$(CC) $(FLAGS) $^ $(INC) $(LFT) $(TAIL) -lft -Llft -o $@
+	@$(CC) $(FLAGS) $^ $(INC) $(TAIL) -o $@
 	@echo "Succesfully compiled $(NAME)"
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
 	@echo "Compiling $@"
-	@$(CC) -c $(FLAGS) $(INC) $(LFT) $< $(TAIL) -o $@
+	@$(CC) -c $(FLAGS) $(INC) $< $(TAIL) -o $@
 
 clean:
 		@make clean -C lft/

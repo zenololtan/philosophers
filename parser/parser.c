@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:38:22 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/02 20:29:09 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/03 19:52:53 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ int	is_digits(char *str)
 
 int	valid(char *str)
 {
-	if (str[0] == '-' && is_digits(str + 1))
-		return (1);
-	if (is_digits(str))
-		return (1);
-	return(0);
+	if (!is_digits(str) || ft_strlen(str) > 10)
+		return (0);
+	if (ft_strlen(str) == 10)
+		if (!ft_strncmp(str, "214748364", 9) && str[9] > '7')
+			return (0);
+	return(1);
 }
 
 int	check_args(int argc, char **argv)
@@ -42,52 +43,40 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-t_data	*init_struct(int n)
+int		init_mutexes(t_data **data_pointer)
 {
 	t_data	*data;
 	int		i;
-	int		err;
-
-	i = 0;
-	data = (t_data*)malloc(sizeof(*data));
-	if (!data)
-		return (NULL);
-	// printf("Data malloced\n");
-	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * n);
-	// printf("Mutex malloced\n");
-	if (!data->forks)
-		return (free_data(data));
-	while (i < n)
-	{
-		err = pthread_mutex_init(&data->forks[i], NULL);
-		if (err)
-			return (free_data(data));
-		i++;
-	}
-	// printf("Individual mutexes malloced\n");
-	// printf("amount of mutexes/forks = %i\n", i);
-	return (data);
-}
-
-int		get_args(t_data *data, int argc, char **argv)
-{
-	int		n_philo;
-	int		i;
 	
 	i = 0;
-	if (check_args(argc, argv))
-		return (str_error(ARG_ERR));
-	n_philo = ft_atoi(argv[1]);
-	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * n_philo);
+	data = *data_pointer;
+	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * data->n_philos);
 	if (!data->forks)
 		return (clear_all(data, STRUCT_ERR));
-	while (i < n_philo)
+	while (i < data->n_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (clear_all(data, MUTEX_ERR));
 		i++;
 	}
-	data->n_philos = n_philo;
+	data->m_status = (pthread_mutex_t*)malloc(sizeof(*data->m_status));
+	if (!data->m_status)
+		return (clear_all(data, STRUCT_ERR));
+	if (pthread_mutex_init(data->m_status, NULL))
+			return (clear_all(data, MUTEX_ERR));
+	data->m_print = (pthread_mutex_t*)malloc(sizeof(*data->m_print));
+	if (!data->m_print)
+		return (clear_all(data, STRUCT_ERR));
+	if (pthread_mutex_init(data->m_print, NULL))
+		return (clear_all(data, MUTEX_ERR));
+	return (0);
+}
+
+int		get_args(t_data *data, int argc, char **argv)
+{
+	if (check_args(argc, argv))
+		return (str_error(ARG_ERR));
+	data->n_philos = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
 	data->t_sleep = ft_atoi(argv[4]);
@@ -95,6 +84,12 @@ int		get_args(t_data *data, int argc, char **argv)
 		data->n_eat = ft_atoi(argv[5]);
 	else
 		data->n_eat = 0;
+	data->start_time = NULL;
+	data->forks = NULL;
+	data->m_status = NULL;
+	data->m_print = NULL;
+	if (init_mutexes(&data))
+		return (1);
 	printf("Found args, initiated struct and mutex object\n");
 	return (0);
 }

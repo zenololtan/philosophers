@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 15:03:09 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 19:52:10 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/03 21:36:25 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,18 @@ int	str_error(char *str)
 	return (1);
 }
 
-void	*free_data(t_data *data)
+void	*free_data(t_data *data, t_philo *philos)
 {
 	if (data->forks)
 		free(data->forks);
-	free(data);
+	if (philos)
+		free(philos);
 	return (NULL);
 }
 
-void	*free_philos(t_philo **philos)
+int	clear_all(t_data *data, t_philo *philos, char *str)
 {
-	int	i;
-
-	i = 0;
-	while (philos[i])
-	{
-		free(philos[i]);
-		i++;
-	}
-	free(philos);
-	return (NULL);
-}
-
-int	clear_all(t_data *data, char *str)
-{
-	free_data(data);
+	free_data(data, philos);
 	if (str)
 		str_error(str);
 	return (1);

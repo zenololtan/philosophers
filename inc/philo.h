@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 19:47:13 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/03 21:26:25 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 # include <stdlib.h>
 
 # define ARG_ERR "Could not parse arguments\n"
+# define MALLOC_ERR "Could not allocate a variable\n"
 # define STRUCT_ERR "Could not initialise structs\n"
 # define MUTEX_ERR "A mutex failed\n"
+# define THREAD_ERR "Could not initialise a thread\n"
 
 enum e_values
 {
@@ -53,28 +55,33 @@ typedef struct	s_philo
 	t_data				*data;
 }				t_philo;
 
-//parser
-int		get_args(t_data *data, int argc, char **argv);
-int		init_mutexes(t_data *data);
+/*-----------------------------------PARSER-----------------------------------*/
+/* init_funcs.c */
+int		init_data(t_data *data, int argc, char **argv);
+int		init_mutexes(t_data **struct_address);
+int		init_philos(t_philo *philos, t_data *data);
+int		init_philo_threads(t_philo **philos, t_data *data);
 
-//utils
-int		str_error(char *str);
-int		clear_all(t_data *data, char *str);
-void	*free_data(t_data *data);
-void	*free_philos(t_philo **data);
-// libft utils
+/* parser.c */
+int		check_args(int argc, char **argv);
+
+/*-----------------------------------UTILS------------------------------------*/
+/* libft_utils.c */
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-// time_keep
-// void	current_time(t_philo *philo);
-struct timeval	*current_time();
 
-//philos
-int		create_philo_threads(t_data *data);
+/* utils.c */
+int		str_error(char *str);
+int		clear_all(t_data *data, t_philo *philos, char *str);
+void	*free_data(t_data *data, t_philo *philos);
 
-//actions
+/*-----------------------------------PHILOS-----------------------------------*/
+/* philos.C */
+void	*philo(void *ptr);
+
+/* actions.c */
 void	eat_(t_philo *philo);
 void	sleep_(t_philo *philo);
 void	die_(int n);

@@ -3,12 +3,12 @@ NAME =		philosophers
 OBJ_DIR =	obj
 
 UTILS =		utils.c \
-			libft_utils.c \
-			time_keep.c
+			libft_utils.c
 
-PARSER =	parser.c
+PARSER =	parser.c \
+			init_funcs.c
 
-PHILOS =	init_philos.c \
+PHILOS =	philos.c \
 			actions.c \
 
 UTILS_PREFIX = $(addprefix utils/, $(UTILS))

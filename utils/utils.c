@@ -20,11 +20,11 @@ void	print_args(t_data *data)
 	printf("\n");
 }
 
-void	mutex_error(t_data *data)
+int		mutex_error(t_data *data)
 {
 	printf("SHIT\n");
 	data->mutex_status = dead;
-	return ;
+	return (1);
 }
 
 int		str_error(char *str)
@@ -39,8 +39,20 @@ int		str_error(char *str)
 
 void	*free_data(t_data *data, t_philo *philos)
 {
+	int	i;
+
+	i = 0;
 	if (data->forks)
+	{
+		while (i > data->n_philos)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			i++;
+		}
 		free(data->forks);
+	}
+	pthread_mutex_destroy(&data->m_status);
+	pthread_mutex_destroy(&data->m_print);
 	if (philos)
 		free(philos);
 	return (NULL);

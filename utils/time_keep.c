@@ -20,9 +20,10 @@ long int	current_time_mili(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-long int	expired_time_mili(struct timeval start)
+long int	expired_time_mili(struct timeval start, struct timeval current)
 {
-	return (current_time_mili() - (start.tv_sec * 1000 + start.tv_usec / 1000));
+	return ((current.tv_sec * 1000 + current.tv_usec / 1000) -\
+		 (start.tv_sec * 1000 + start.tv_usec / 1000));
 }
 
 void	sleeper_func(long int t_sleep)

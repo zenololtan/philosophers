@@ -20,11 +20,14 @@
 # include <stdbool.h>
 # include <stdlib.h>
 
-# define ARG_ERR "Could not parse arguments\n"
-# define MALLOC_ERR "Could not allocate a variable\n"
-# define STRUCT_ERR "Could not initialise structs\n"
-# define MUTEX_ERR "A mutex failed\n"
-# define THREAD_ERR "Could not initialise a thread\n"
+# define RESET			"\033[0m"
+# define RED			"\033[31m"
+
+# define ARG_ERR		"Could not parse arguments\n"
+# define MALLOC_ERR		"Could not allocate a variable\n"
+# define STRUCT_ERR		"Could not initialise structs\n"
+# define MUTEX_ERR		"A mutex failed\n"
+# define THREAD_ERR		"Could not initialise a thread\n"
 
 enum e_values
 {
@@ -51,8 +54,8 @@ typedef struct	s_philo
 {
 	int					philo;
 	int					n_eaten;
-	long int			last_diner;
-	struct timeval		cur_time;
+	// long int			last_diner;
+	struct timeval		last_diner;
 	t_data				*data;
 }				t_philo;
 
@@ -71,34 +74,33 @@ int		check_args(int argc, char **argv);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *s);
-void    ft_putnbr_fd(int n, int fd);
+void	ft_putnbr_fd(int n, int fd);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* utils.c */
 int		str_error(char *str);
-void    mutex_error(t_data *data);
+int		mutex_error(t_data *data);
 int		clear_all(t_data *data, t_philo *philos, char *str);
 void	*free_data(t_data *data, t_philo *philos);
 
 /* time_keep.c */
 long int	current_time_mili(void);
-long int    expired_time_mili(struct timeval start);
+long int	expired_time_mili(struct timeval start, struct timeval current);
 void		sleeper_func(long int t_sleep);
 
 /* print_func.c */
-void    print_func(t_philo *philo, char *str);
+int		print_func(t_philo *philo, char *str);
 
 /* check_func.c */
-void    *checker_func(void *arg);
+void	*checker_func(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */
 void	*philo(void *ptr);
 
 /* actions.c */
-void	eat_(t_philo *philo);
-void	sleep_(t_philo *philo);
-void	die_(int n);
+int		eat_(t_philo *philo);
+int		sleep_(t_philo *philo);
 
 //test
 void	print_args(t_data *data);

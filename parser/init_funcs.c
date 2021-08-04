@@ -23,6 +23,7 @@ int	init_philo_threads(t_philo **philos, t_data *data)
 		return (str_error(STRUCT_ERR));
 	while (i < data->n_philos)
 	{
+		(*philos)[i].last_diner = data->start_time;
 		if (pthread_create(&(tids[i]), NULL, &philo, (void*)&(*philos)[i]))
 			return (str_error(THREAD_ERR));
 		if (pthread_create(&(ctids[i]), NULL, &checker_func, (void*)&(*philos)[i]))
@@ -52,7 +53,6 @@ int		init_philos(t_philo *philos, t_data *data)
 		philos[i].philo = i + 1;
 		philos[i].data = data;
 		philos[i].n_eaten = 0;
-		philos[i].last_diner = 0;
 		i++;
 	}
 	return (0);
@@ -94,6 +94,8 @@ int		init_data(t_data *data, int argc, char **argv)
 	data->t_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		data->n_eat = ft_atoi(argv[5]);
+	else
+		data->n_eat = -1;
 	data->forks = NULL;
 	if (init_mutexes(&data))
 		return (1);

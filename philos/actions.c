@@ -12,7 +12,7 @@
 
 #include <philo.h>
 
-void	grab_forks(t_philo *philo)
+int		grab_forks(t_philo *philo)
 {
 	if (philo->philo % 2)
 	{
@@ -38,11 +38,13 @@ void	grab_forks(t_philo *philo)
 		}
 		print_func(philo, "left fork has been taken\n");
 	}
+	return (0);
 }
 
-void	eat_(t_philo *philo)
+int		eat_(t_philo *philo)
 {
-	grab_forks(philo);
+	if (grab_forks(philo))
+		return (1);
 	if (pthread_mutex_lock(&philo->data->m_status))
 	{
 		pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
@@ -50,22 +52,23 @@ void	eat_(t_philo *philo)
 		return (mutex_error(philo->data));
 	}
 	print_func(philo, "is eating\n");
-	philo->last_diner = current_time_mili();
+	gettimeofday(&philo->last_diner, NULL);
+	pthread_mutex_unlock(&philo->data->m_status);
 	sleeper_func(philo->data->t_eat);
 	philo->n_eaten += 1;
 	pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
 	pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->data->n_philos]);
-	pthread_mutex_unlock(&philo->data->m_status);
-	print_func(philo, "is thinking\n");
+	if (philo->n_eaten >= philo->data->n_eat && philo->data->n_eat != -1)
+		return (1);
+	return (0);
 }
 
-void	sleep_(t_philo *philo)
+int		sleep_(t_philo *philo)
 {
+	if (!philo->data->status)
+		return (1);
 	print_func(philo, "is sleeping\n");
 	sleeper_func(philo->data->t_sleep);
-}
-
-void	die_(int n)
-{
-	printf("philosopher %i died\n", n);
+	print_func(philo, "is thinking\n");
+	return (0);
 }

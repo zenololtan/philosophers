@@ -12,7 +12,7 @@ PARSER =	parser.c \
 			init_funcs.c
 
 PHILOS =	philos.c \
-			actions.c \
+			actions.c
 
 UTILS_PREFIX = $(addprefix utils/, $(UTILS))
 

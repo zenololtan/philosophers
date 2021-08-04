@@ -3,7 +3,10 @@ NAME =		philosophers
 OBJ_DIR =	obj
 
 UTILS =		utils.c \
-			libft_utils.c
+			libft_utils.c \
+			time_keep.c \
+			print_func.c \
+			check_func.c
 
 PARSER =	parser.c \
 			init_funcs.c

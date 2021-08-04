@@ -14,7 +14,7 @@
 
 void	test(struct timeval *time)
 {
-	printf("this is a test function, current time: %ld.%d\n", time->tv_sec, time->tv_usec);
+	printf("this is a test function, current time: %ld.%ld\n", time->tv_sec, time->tv_usec);
 }
 
 void	*philo(void *ptr)
@@ -23,7 +23,7 @@ void	*philo(void *ptr)
 	philo = (t_philo*)ptr;
 	// printf("PHILO[%i]\n", philo->philo);
 	// test(philo->data->start_time);
-	while (philo->n_eaten < philo->data->n_eat)
+	while (philo->n_eaten < philo->data->n_eat && philo->data->status)
 	{
 		eat_(philo);
 		sleep_(philo);

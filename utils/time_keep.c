@@ -12,22 +12,25 @@
 
 #include <philo.h>
 
-//timeval = seconds & micro sec
-// micro * 1000 = milisec
-// values are in long int
+long int	current_time_mili(void)
+{	
+	struct timeval	time;
 
-//get current time
-// int	current_time(struct timeval	*time)
-// {
-// 	if (gettimeofday(time, NULL))
-// 		return (NULL);
-// 	}
-// 	printf("time: %ld.%d\n", time->tv_sec, time->tv_usec);
-// 	return (time);
-// }
+	gettimeofday(&time, NULL);	
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
 
-//compare times
-// void	compare_time()
-// {
-	
-// }
+long int	expired_time_mili(struct timeval start)
+{
+	return (current_time_mili() - (start.tv_sec * 1000 + start.tv_usec / 1000));
+}
+
+void	sleeper_func(long int t_sleep)
+{
+	long int		start_t;
+
+	start_t = current_time_mili();
+	while(current_time_mili() - start_t < t_sleep)
+		usleep(100);
+}
+

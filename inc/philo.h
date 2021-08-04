@@ -39,7 +39,9 @@ typedef struct	s_data
 	long int			t_eat;
 	long int			t_sleep;
 	int					n_eat;
-	struct timeval		start_time;
+	int					status;
+	int					mutex_status;
+	struct timeval		start_time;	
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		m_status; //
 	pthread_mutex_t		m_print; //
@@ -49,7 +51,6 @@ typedef struct	s_philo
 {
 	int					philo;
 	int					n_eaten;
-	int					status;
 	long int			last_diner;
 	struct timeval		cur_time;
 	t_data				*data;
@@ -70,12 +71,25 @@ int		check_args(int argc, char **argv);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *s);
+void    ft_putnbr_fd(int n, int fd);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* utils.c */
 int		str_error(char *str);
+void    mutex_error(t_data *data);
 int		clear_all(t_data *data, t_philo *philos, char *str);
 void	*free_data(t_data *data, t_philo *philos);
+
+/* time_keep.c */
+long int	current_time_mili(void);
+long int    expired_time_mili(struct timeval start);
+void		sleeper_func(long int t_sleep);
+
+/* print_func.c */
+void    print_func(t_philo *philo, char *str);
+
+/* check_func.c */
+void    *checker_func(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */

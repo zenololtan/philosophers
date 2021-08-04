@@ -20,7 +20,14 @@ void	print_args(t_data *data)
 	printf("\n");
 }
 
-int	str_error(char *str)
+void	mutex_error(t_data *data)
+{
+	printf("SHIT\n");
+	data->mutex_status = dead;
+	return ;
+}
+
+int		str_error(char *str)
 {
 	if (str)
 	{

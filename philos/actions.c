@@ -12,42 +12,57 @@
 
 #include <philo.h>
 
+void	grab_forks(t_philo *philo)
+{
+	if (philo->philo % 2)
+	{
+		if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
+			return (mutex_error(philo->data));
+		print_func(philo, "left fork has been taken\n");
+		if (pthread_mutex_lock(&philo->data->forks[philo->philo % philo->data->n_philos]))
+		{
+			pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
+			return (mutex_error(philo->data));
+		}
+		print_func(philo, "right fork has been taken\n");
+	}
+	else
+	{
+		if (pthread_mutex_lock(&philo->data->forks[philo->philo % philo->data->n_philos]))	
+			return (mutex_error(philo->data));
+		print_func(philo, "right fork has been taken\n");
+		if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
+		{
+			pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->data->n_philos]);
+			return (mutex_error(philo->data));
+		}
+		print_func(philo, "left fork has been taken\n");
+	}
+}
+
 void	eat_(t_philo *philo)
 {
-	struct timeval	curr_time;
-	long int		mili;
-	
-	if (gettimeofday(&curr_time, NULL))
-		philo->status = dead;
-	mili = (curr_time.tv_sec - philo->data->start_time.tv_sec) * 1000 +\
-		 (curr_time.tv_usec - philo->data->start_time.tv_usec) / 1000;
-	printf("[%lu] philosopher %i is eating\n", mili, philo->philo);
-	if (philo->data->t_die <= mili - philo->last_diner)
+	grab_forks(philo);
+	if (pthread_mutex_lock(&philo->data->m_status))
 	{
-		philo->status = dead;
-		die_(philo->philo);
+		pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
+		pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->data->n_philos]);
+		return (mutex_error(philo->data));
 	}
-	philo->last_diner = mili;
-	usleep(philo->data->t_eat * 1000);
-	if (gettimeofday(&curr_time, NULL))
-		philo->status = dead;
-	mili = (curr_time.tv_sec - philo->data->start_time.tv_sec) * 1000 +\
-		 (curr_time.tv_usec - philo->data->start_time.tv_usec) / 1000;
-	printf("[%lu] philosopher %i is thinking\n", mili, philo->philo);
+	print_func(philo, "is eating\n");
+	philo->last_diner = current_time_mili();
+	sleeper_func(philo->data->t_eat);
 	philo->n_eaten += 1;
+	pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
+	pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->data->n_philos]);
+	pthread_mutex_unlock(&philo->data->m_status);
+	print_func(philo, "is thinking\n");
 }
 
 void	sleep_(t_philo *philo)
 {
-	struct timeval	curr_time;
-	long int		mili;
-
-	if (gettimeofday(&curr_time, NULL))
-		philo->status = dead;
-	mili = (curr_time.tv_sec - philo->data->start_time.tv_sec) * 1000 +\
-		 (curr_time.tv_usec - philo->data->start_time.tv_usec) / 1000;
-	printf("[%lu] philosopher %i is sleeping\n", mili, philo->philo);
-	usleep(philo->data->t_sleep * 1000);
+	print_func(philo, "is sleeping\n");
+	sleeper_func(philo->data->t_sleep);
 }
 
 void	die_(int n)

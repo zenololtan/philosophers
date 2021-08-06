@@ -12,7 +12,7 @@
 
 #include <philo.h>
 
-int	init_philo_threads(t_philo **philos, t_data *data)
+int		init_philo_threads(t_philo **philos, t_data *data)
 {
 	int			i;
 	pthread_t	tids[data->n_philos - 1];

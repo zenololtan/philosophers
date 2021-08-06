@@ -12,6 +12,34 @@
 
 #include <philo.h>
 
+int		even_forks(t_philo *philo, int n)
+{
+	if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
+		return (1);
+	print_func(philo, "left fork has been taken\n");
+	if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))
+	{
+		pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
+		return (1);
+	}
+	print_func(philo, "right fork has been taken\n");
+	return (0);
+}
+
+int		uneven_forks(t_philo *philo, int n)
+{
+	if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))	
+		return (1);
+	print_func(philo, "right fork has been taken\n");
+	if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
+	{
+		pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
+		return (1);
+	}
+	print_func(philo, "left fork has been taken\n");
+	return (0);
+}
+
 int		grab_forks(t_philo *philo)
 {
 	int	n;
@@ -22,28 +50,13 @@ int		grab_forks(t_philo *philo)
 		n = philo->data->n_philos;
 	if (philo->philo % 2)
 	{
-		if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
+		if (even_forks(philo, n))
 			return (mutex_error(philo->data));
-		return (mutex_error(philo->data));
-		print_func(philo, "left fork has been taken\n");
-		if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))
-		{
-			pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
-			return (mutex_error(philo->data));
-		}
-		print_func(philo, "right fork has been taken\n");
 	}
 	else
 	{
-		if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))	
+		if (uneven_forks(philo, n))
 			return (mutex_error(philo->data));
-		print_func(philo, "right fork has been taken\n");
-		if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
-		{
-			pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
-			return (mutex_error(philo->data));
-		}
-		print_func(philo, "left fork has been taken\n");
 	}
 	return (0);
 }

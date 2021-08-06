@@ -11,7 +11,8 @@ int		print_func(t_philo *philo, char *str)
 	if (ft_strlen(str) == 5)
 		write(STDOUT_FILENO, RED, ft_strlen(RED));
 	write(STDOUT_FILENO, "[", 1);
-	gettimeofday(&current, NULL);
+	if (gettimeofday(&current, NULL))
+		return (str_error(TIME_ERR));
 	ft_putnbr_fd(expired_time_mili(philo->data->start_time, current),\
 		 STDOUT_FILENO);
 	write(STDOUT_FILENO, "] ", 2);

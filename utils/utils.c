@@ -37,7 +37,17 @@ int		str_error(char *str)
 	return (1);
 }
 
-void	*free_data(t_data *data, t_philo *philos)
+void	*str_error_null(char *str)
+{
+	if (str)
+	{
+		write(1, "Error: ", 7);
+		write(1, str, ft_strlen(str));
+	}
+	return (NULL);
+}
+
+int		destroy_mutexes(t_data *data)
 {
 	int	i;
 
@@ -49,10 +59,17 @@ void	*free_data(t_data *data, t_philo *philos)
 			pthread_mutex_destroy(&data->forks[i]);
 			i++;
 		}
-		free(data->forks);
 	}
 	pthread_mutex_destroy(&data->m_status);
 	pthread_mutex_destroy(&data->m_print);
+	return (1);
+}
+
+void	*free_data(t_data *data, t_philo *philos)
+{
+	
+	if (data->forks)
+		free(data->forks);
 	if (philos)
 		free(philos);
 	return (NULL);
@@ -60,6 +77,7 @@ void	*free_data(t_data *data, t_philo *philos)
 
 int	clear_all(t_data *data, t_philo *philos, char *str)
 {
+	destroy_mutexes(data);
 	free_data(data, philos);
 	if (str)
 		str_error(str);

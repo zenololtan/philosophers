@@ -30,7 +30,6 @@ int	init_philo_threads(t_philo **philos, t_data *data)
 			return (str_error(THREAD_ERR));
 		i++;
 	}
-	// CLOSING THREADS
 	i = 0;
 	while (i < data->n_philos)
 	{
@@ -39,7 +38,6 @@ int	init_philo_threads(t_philo **philos, t_data *data)
 		pthread_join(ctids[i], NULL);
 		i++;
 	}
-	printf("amount of philos created = %i\n", i);
 	return (0);
 }
 
@@ -62,22 +60,27 @@ int		init_mutexes(t_data **struct_address)
 {
 	t_data	*data;
 	int		i;
+	int		amount;
 	
 	i = 0;
 	data = *struct_address;
-	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * (data->n_philos));
+	if (data->n_philos == 1)
+		amount = 2;
+	else
+		amount = data->n_philos;
+	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * (amount));
 	if (!data->forks)
 		return (str_error(MALLOC_ERR));
-	while (i < data->n_philos)
+	while (i < amount)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
-			return (str_error(MUTEX_ERR));
+			return (clear_all(data, NULL, MALLOC_ERR));
 		i++;
-	}
+	}	
 	if (pthread_mutex_init(&data->m_status, NULL))
-			return (str_error(MUTEX_ERR));
+		return (clear_all(data, NULL, MALLOC_ERR));
 	if (pthread_mutex_init(&data->m_print, NULL))
-		return (str_error(MUTEX_ERR));
+		return (clear_all(data, NULL, MALLOC_ERR));
 	return (0);
 }
 

@@ -20,18 +20,15 @@ int	main(int argc, char **argv)
 
 	if (init_data(&data, argc, argv))
 		return (1);
-	printf("INIT DATA\n");
 	philos = (t_philo*)malloc(sizeof(*philos) * (data.n_philos));
 	if (!philos)
 		return (clear_all(&data, NULL, MALLOC_ERR));
 	if (init_philos(philos, &data))
 		return (clear_all(&data, NULL, NULL));
-	printf("INIT PHILOS\n");
 	print_args(&data);
 	if (init_philo_threads(&philos, &data))
 		return (clear_all(&data, philos, NULL));
 	free_data(&data, philos);
 	wait(NULL);
-	printf("ended\n");
 	return (0);
 }

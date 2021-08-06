@@ -21,18 +21,10 @@ void	*philo(void *ptr)
 {
 	t_philo	*philo;
 	philo = (t_philo*)ptr;
-	// printf("PHILO[%i]\n", philo->philo);
-	// test(philo->data->start_time);
 	while (philo->data->status)
 	{
 		if (eat_(philo) || sleep_(philo))
-		{
-			// printf("PHILO[%i] done\n", philo->philo);
 			return (NULL);
-		}
-			
 	}
-	// printf("PHILO[%i] STATUS[%i]\n", philo->philo, philo->data->status);
-	// die_(philo->philo);
 	return (NULL);
 }

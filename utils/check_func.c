@@ -11,7 +11,7 @@ void	*checker_func(void *arg)
 		n = 2;
 	else
 		n = philo->data->n_philos;
-	while (philo->data->status)
+	while (philo->data->status && philo->data->mutex_status)
 	{
 		if (pthread_mutex_lock(&philo->data->m_status))
 		{

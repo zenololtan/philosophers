@@ -14,14 +14,14 @@
 
 void	test(struct timeval *time)
 {
-	printf("this is a test function, current time: %ld.%d\n", time->tv_sec, time->tv_usec);
+	printf("this is a test function, current time: %ld.%ld\n", time->tv_sec, time->tv_usec);
 }
 
 void	*philo(void *ptr)
 {
 	t_philo	*philo;
 	philo = (t_philo*)ptr;
-	while (philo->data->status)
+	while (philo->data->status && philo->data->mutex_status)
 	{
 		if (eat_(philo) || sleep_(philo))
 			return (NULL);

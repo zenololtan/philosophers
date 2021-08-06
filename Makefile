@@ -50,11 +50,9 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) -c $(FLAGS) $(INC) $< $(TAIL) -o $@
 
 clean:
-		@make clean -C lft/
 		@rm -rf $(OBJ_DIR)
 
 fclean: clean
-		@make fclean -C lft/
 		rm -f $(NAME)
 
 re: fclean all

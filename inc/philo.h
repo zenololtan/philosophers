@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 21:26:25 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/06 21:40:20 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum e_values
 	alive = 1
 };
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int					n_philos;
 	long int			t_die;
@@ -51,7 +51,7 @@ typedef struct	s_data
 	pthread_mutex_t		m_print;
 }				t_data;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int					philo;
 	int					n_eaten;
@@ -108,4 +108,3 @@ int			sleep_(t_philo *philo);
 void		print_args(t_data *data);
 
 #endif
-

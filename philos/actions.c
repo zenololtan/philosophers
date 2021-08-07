@@ -6,13 +6,13 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/26 22:28:37 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/08/03 21:43:20 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/07 17:55:12 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int		even_forks(t_philo *philo, int n)
+int	even_forks(t_philo *philo, int n)
 {
 	if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
 		return (1);
@@ -26,9 +26,9 @@ int		even_forks(t_philo *philo, int n)
 	return (0);
 }
 
-int		uneven_forks(t_philo *philo, int n)
+int	uneven_forks(t_philo *philo, int n)
 {
-	if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))	
+	if (pthread_mutex_lock(&philo->data->forks[philo->philo % n]))
 		return (1);
 	print_func(philo, "right fork has been taken\n");
 	if (pthread_mutex_lock(&philo->data->forks[philo->philo - 1]))
@@ -40,7 +40,7 @@ int		uneven_forks(t_philo *philo, int n)
 	return (0);
 }
 
-int		grab_forks(t_philo *philo)
+int	grab_forks(t_philo *philo)
 {
 	int	n;
 
@@ -61,7 +61,7 @@ int		grab_forks(t_philo *philo)
 	return (0);
 }
 
-int		eat_(t_philo *philo)
+int	eat_(t_philo *philo)
 {
 	int	n;
 
@@ -90,9 +90,9 @@ int		eat_(t_philo *philo)
 	return (0);
 }
 
-int		sleep_(t_philo *philo)
+int	sleep_(t_philo *philo)
 {
-	if (!philo->data->status)
+	if (!philo->data->status || !philo->data->mutex_status)
 		return (1);
 	print_func(philo, "is sleeping\n");
 	sleeper_func(philo->data->t_sleep);

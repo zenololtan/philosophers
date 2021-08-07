@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 11:20:31 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 12:18:36 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/07 18:14:31 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -45,7 +45,6 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &c, 1);
 }
 
-
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
@@ -53,14 +52,7 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-static int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || (c == 32))
-		return (1);
-	return (0);
-}
-
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (n != 0 && (*s1 != '\0' || *s2 != '\0'))
 	{
@@ -76,29 +68,31 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int			ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int			i;
-	long int	sign;
-	long int	res;
+	int			negative;
+	intmax_t	n;
 
-	i = 0;
-	sign = 1;
-	res = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if ((str[i] == '-') || (str[i] == '+'))
+	n = 0;
+	while ((*str >= 9 && *str <= 13) || (*str == 32))
+		str++;
+	if (!str)
+		return (0);
+	negative = (*str == '-');
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str && ft_isdigit(*str))
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		if (n >= 922337203685477580)
+		{
+			if (!negative)
+				return (-1);
+			return (0);
+		}
+		n = n * 10 + (*str - '0');
+		str++;
 	}
-	while (ft_isdigit(str[i]))
-	{
-		if (((str[i] - '0') + (res * 10)) < res)
-			return ((sign == 1) ? -1 : 0);
-		res = (str[i] - '0') + (res * 10);
-		i++;
-	}
-	return ((int)(res * sign));
+	if (negative)
+		return (n * -1);
+	return (n);
 }

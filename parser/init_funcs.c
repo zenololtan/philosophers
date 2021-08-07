@@ -6,42 +6,40 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 21:37:46 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/07 17:53:06 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int		init_philo_threads(t_philo **philos, t_data *data)
+int	init_philo_threads(t_philo *philos, t_data *data)
 {
 	int			i;
-	pthread_t	tids[data->n_philos - 1];
-	pthread_t	ctids[data->n_philos - 1];
 
 	i = 0;
 	if (gettimeofday(&data->start_time, NULL))
 		return (str_error(STRUCT_ERR));
 	while (i < data->n_philos)
 	{
-		(*philos)[i].last_diner = data->start_time;
-		if (pthread_create(&(tids[i]), NULL, &philo, (void*)&(*philos)[i]))
+		philos[i].last_diner = data->start_time;
+		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
 			return (str_error(THREAD_ERR));
-		if (pthread_create(&(ctids[i]), NULL, &checker_func, (void*)&(*philos)[i]))
+		if (pthread_create(&philos[i].ctid, NULL, &checker, &philos[i]))
 			return (str_error(THREAD_ERR));
 		i++;
 	}
 	i = 0;
 	while (i < data->n_philos)
 	{
-		pthread_join(tids[i], NULL);
+		pthread_join(philos[i].ptid, NULL);
 		usleep(100);
-		pthread_join(ctids[i], NULL);
+		pthread_join(philos[i].ctid, NULL);
 		i++;
 	}
 	return (0);
 }
 
-int		init_philos(t_philo *philos, t_data *data)
+int	init_philos(t_philo *philos, t_data *data)
 {
 	int	i;
 
@@ -56,41 +54,37 @@ int		init_philos(t_philo *philos, t_data *data)
 	return (0);
 }
 
-int		init_mutexes(t_data **struct_address)
+int	init_mutexes(t_data *data)
 {
-	t_data	*data;
 	int		i;
 	int		amount;
-	
+
 	i = 0;
-	data = *struct_address;
 	if (data->n_philos == 1)
 		amount = 2;
 	else
 		amount = data->n_philos;
-	data->forks = (pthread_mutex_t*)malloc(sizeof(*data->forks) * (amount));
-	if (!data->forks)
-		return (str_error(MALLOC_ERR));
 	while (i < amount)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
-			return (clear_all(data, NULL, MALLOC_ERR));
+			return (1);
 		i++;
 	}	
 	if (pthread_mutex_init(&data->m_status, NULL))
-		return (clear_all(data, NULL, MALLOC_ERR));
+		return (1);
 	if (pthread_mutex_init(&data->m_print, NULL))
-		return (clear_all(data, NULL, MALLOC_ERR));
+		return (1);
+	data->mutex_status = alive;
 	return (0);
 }
 
-int		init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv)
 {
-	if (check_args(argc, argv))
-		return (str_error(ARG_ERR));
+	int	amount;
+
 	data->n_eat = 0;
 	data->status = alive;
-	data->mutex_status = alive;
+	data->mutex_status = dead;
 	data->n_philos = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
@@ -99,8 +93,12 @@ int		init_data(t_data *data, int argc, char **argv)
 		data->n_eat = ft_atoi(argv[5]);
 	else
 		data->n_eat = -1;
-	data->forks = NULL;
-	if (init_mutexes(&data))
-		return (1);
+	if (data->n_philos == 1)
+		amount = 2;
+	else
+		amount = data->n_philos;
+	data->forks = (pthread_mutex_t *)malloc(sizeof(*data->forks) * (amount));
+	if (!data->forks)
+		return (str_error(MALLOC_ERR));
 	return (0);
 }

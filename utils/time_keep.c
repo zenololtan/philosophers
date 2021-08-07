@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 11:40:54 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 20:26:03 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/07 18:16:35 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ long int	current_time_mili(void)
 
 long int	expired_time_mili(struct timeval start, struct timeval current)
 {
-	return ((current.tv_sec * 1000 + current.tv_usec / 1000) -\
-		 (start.tv_sec * 1000 + start.tv_usec / 1000));
+	return ((current.tv_sec * 1000 + current.tv_usec / 1000) - \
+		(start.tv_sec * 1000 + start.tv_usec / 1000));
 }
 
 void	sleeper_func(long int t_sleep)
@@ -31,7 +31,6 @@ void	sleeper_func(long int t_sleep)
 	long int		start_t;
 
 	start_t = current_time_mili();
-	while(current_time_mili() - start_t < t_sleep)
+	while (current_time_mili() - start_t < t_sleep)
 		usleep(100);
 }
-

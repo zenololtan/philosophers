@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/06 21:40:20 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/08/07 17:54:32 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_philo
 {
 	int					philo;
 	int					n_eaten;
+	pthread_t			ptid;
+	pthread_t			ctid;
 	struct timeval		last_diner;
 	t_data				*data;
 }				t_philo;
@@ -62,9 +64,9 @@ typedef struct s_philo
 /*-----------------------------------PARSER-----------------------------------*/
 /* init_funcs.c */
 int			init_data(t_data *data, int argc, char **argv);
-int			init_mutexes(t_data **struct_address);
+int			init_mutexes(t_data *data);
 int			init_philos(t_philo *philos, t_data *data);
-int			init_philo_threads(t_philo **philos, t_data *data);
+int			init_philo_threads(t_philo *philos, t_data *data);
 
 /* parser.c */
 int			check_args(int argc, char **argv);
@@ -94,7 +96,7 @@ void		sleeper_func(long int t_sleep);
 int			print_func(t_philo *philo, char *str);
 
 /* check_func.c */
-void		*checker_func(void *arg);
+void		*checker(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */
@@ -103,8 +105,5 @@ void		*philo(void *ptr);
 /* actions.c */
 int			eat_(t_philo *philo);
 int			sleep_(t_philo *philo);
-
-//test
-void		print_args(t_data *data);
 
 #endif

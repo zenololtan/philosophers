@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:38:22 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/03 20:16:27 by ztan          ########   odam.nl         */
+/*   Updated: 2021/08/07 17:53:49 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int	valid(char *str)
 	if (ft_strlen(str) == 10)
 		if (!ft_strncmp(str, "214748364", 9) && str[9] > '7')
 			return (0);
-	return(1);
+	return (1);
 }
 
 int	check_args(int argc, char **argv)
 {
 	if ((argc != 5 && argc != 6) || (!valid(argv[1]) || !valid(argv[2])
-		 || !valid(argv[3]) || !valid(argv[4])))
+			 || !valid(argv[3]) || !valid(argv[4])))
 		return (1);
 	if (argc == 6 && !valid(argv[5]))
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 15:03:09 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 17:57:46 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/08/07 18:29:59 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,6 @@ void	*str_error_null(char *str)
 	return (NULL);
 }
 
-int	destroy_mutexes(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->forks)
-	{
-		while (i > data->n_philos)
-		{
-			pthread_mutex_destroy(&data->forks[i]);
-			i++;
-		}
-	}
-	pthread_mutex_destroy(&data->m_status);
-	pthread_mutex_destroy(&data->m_print);
-	return (1);
-}
-
 void	*free_data(t_data *data, t_philo *philos)
 {
 	if (data->forks)
@@ -67,8 +49,22 @@ void	*free_data(t_data *data, t_philo *philos)
 
 int	clear_all(t_data *data, t_philo *philos, char *str)
 {
+	int	i;
+
+	i = 0;
 	if (data->mutex_status == alive)
-		destroy_mutexes(data);
+	{
+		if (data->forks)
+		{
+			while (i > data->n_philos)
+			{
+				pthread_mutex_destroy(&data->forks[i]);
+				i++;
+			}
+		}
+		pthread_mutex_destroy(&data->m_status);
+		pthread_mutex_destroy(&data->m_print);
+	}
 	free_data(data, philos);
 	if (str)
 		str_error(str);

@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 17:53:06 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/08/07 18:27:43 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	init_philo_threads(t_philo *philos, t_data *data)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	if (gettimeofday(&data->start_time, NULL))
 		return (str_error(STRUCT_ERR));
-	while (i < data->n_philos)
+	while (i < data->n_philos && data->n_eat != 0)
 	{
 		philos[i].last_diner = data->start_time;
 		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
@@ -29,7 +29,7 @@ int	init_philo_threads(t_philo *philos, t_data *data)
 		i++;
 	}
 	i = 0;
-	while (i < data->n_philos)
+	while (i < data->n_philos && data->n_eat != 0)
 	{
 		pthread_join(philos[i].ptid, NULL);
 		usleep(100);

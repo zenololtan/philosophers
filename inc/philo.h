@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 17:54:32 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/08/07 18:31:41 by zenotan       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,10 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			str_error(char *str);
 void		*str_error_null(char *str);
 int			mutex_error(t_data *data);
-int			destroy_mutexes(t_data *data);
 int			clear_all(t_data *data, t_philo *philos, char *str);
 void		*free_data(t_data *data, t_philo *philos);
 
 /* time_keep.c */
-long int	current_time_mili(void);
 long int	expired_time_mili(struct timeval start, struct timeval current);
 void		sleeper_func(long int t_sleep);
 

@@ -1,4 +1,4 @@
-NAME =		philosophers
+NAME =		philo
 
 OBJ_DIR =	obj
 

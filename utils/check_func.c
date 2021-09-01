@@ -22,17 +22,14 @@ void	*checker(void *arg)
 	int				n;
 
 	philo = arg;
-	if (philo->data->n_philos == 1)
-		n = 2;
-	else
-		n = philo->data->n_philos;
+	n = philo->data->n_philos;
 	while (philo->data->status && philo->data->mutex_status)
 	{
 		if (pthread_mutex_lock(&philo->data->m_status))
 			return (unlocker(philo, n, false));
 		if (gettimeofday(&curr, NULL))
 			return (str_error_null(TIME_ERR));
-		if (expired_time_mili(philo->last_diner, curr) > philo->data->t_die)
+		if (expired_time_mili(philo->last_diner, curr) >= philo->data->t_die)
 			return (unlocker(philo, n, true));
 		if (philo->n_eaten >= philo->data->n_eat && philo->data->n_eat != -1)
 		{

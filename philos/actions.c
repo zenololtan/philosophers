@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/26 22:28:37 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/08/07 17:55:12 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/01 18:26:20 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ int	grab_forks(t_philo *philo)
 {
 	int	n;
 
-	if (philo->data->n_philos == 1)
-		n = 2;
-	else
-		n = philo->data->n_philos;
+	n = philo->data->n_philos;
 	if (philo->philo % 2)
 	{
 		if (even_forks(philo, n))
@@ -65,10 +62,7 @@ int	eat_(t_philo *philo)
 {
 	int	n;
 
-	if (philo->data->n_philos == 1)
-		n = 2;
-	else
-		n = philo->data->n_philos;
+	n = philo->data->n_philos;
 	if (grab_forks(philo))
 		return (1);
 	if (pthread_mutex_lock(&philo->data->m_status))

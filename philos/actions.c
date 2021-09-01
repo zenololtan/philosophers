@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/26 22:28:37 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/01 18:26:20 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/01 20:19:42 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,29 @@ int	uneven_forks(t_philo *philo, int n)
 int	grab_forks(t_philo *philo)
 {
 	int	n;
-
+	int mod;
+	
+	mod = 2;
 	n = philo->data->n_philos;
-	if (philo->philo % 2)
-	{
-		if (even_forks(philo, n))
-			return (mutex_error(philo->data));
-	}
-	else
-	{
-		if (uneven_forks(philo, n))
-			return (mutex_error(philo->data));
-	}
+	// if (philo->data->n_philos > 20)
+	// if (philo->data->n_philos || philo->philo == philo->data->n_philos)
+	// {
+		if (!(philo->philo % mod) || philo->philo == philo->data->n_philos)
+		{
+			if (even_forks(philo, n))
+				return (mutex_error(philo->data));
+		}
+		else
+		{
+			if (uneven_forks(philo, n))
+				return (mutex_error(philo->data));
+		}
+	// }
+	// else
+	// {
+	// 	if (even_forks(philo, n))
+	// 		return (mutex_error(philo->data));
+	// }
 	return (0);
 }
 

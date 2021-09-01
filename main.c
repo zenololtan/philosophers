@@ -6,12 +6,13 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:14:12 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 18:17:17 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/01 20:18:40 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 #include <sys/wait.h>
+#include <stdio.h>
 
 int	main(int argc, char **argv)
 {

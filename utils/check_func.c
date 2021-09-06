@@ -15,28 +15,34 @@ void	*unlocker(t_philo *philo, int n, bool death)
 	return (NULL);
 }
 
-void	*checker(void *arg)
+void	*checker(t_philo *philo)
 {
-	t_philo			*philo;
 	struct timeval	curr;
 	int				n;
+	int i;
 
-	philo = arg;
-	n = philo->data->n_philos;
-	while (philo->data->status && philo->data->mutex_status)
+	i = 0;
+	n = philo[0].data->n_philos;
+	while (1)
 	{
-		if (pthread_mutex_lock(&philo->data->m_status))
-			return (unlocker(philo, n, false));
+		usleep(100);
+		if (!philo[i].data->status && !philo[i].data->mutex_status)
+			break ;
+		if (pthread_mutex_lock(&philo[i].data->m_status))
+			return (unlocker(&(philo[i]), n, false));
 		if (gettimeofday(&curr, NULL))
 			return (str_error_null(TIME_ERR));
-		if (expired_time_mili(philo->last_diner, curr) >= philo->data->t_die)
-			return (unlocker(philo, n, true));
-		if (philo->n_eaten >= philo->data->n_eat && philo->data->n_eat != -1)
+		if (expired_time_mili(philo[i].last_diner, curr) >= philo[i].data->t_die)
+			return (unlocker(&philo[i], n, true));
+		if (philo[i].n_eaten >= philo[i].data->n_eat && philo[i].data->n_eat != -1)
 		{
-			pthread_mutex_unlock(&philo->data->m_status);
+			pthread_mutex_unlock(&philo[i].data->m_status);
 			return (NULL);
 		}
-		pthread_mutex_unlock(&philo->data->m_status);
+		pthread_mutex_unlock(&philo[i].data->m_status);
+		i++;
+		if (i >= n)
+			i = 0;
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/07 14:53:45 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/07 16:44:50 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,13 @@ void		*free_data(t_data *data, t_philo *philos);
 
 /* time_keep.c */
 long int	passed_time_mili(struct timeval start, struct timeval current);
-void		sleeper_func(long int t_sleep);
+void		sleeper_func(t_philo *philo, long int t_sleep);
 
 /* print_func.c */
 int			print_func(t_philo *philo, char *str);
 
 /* check_func.c */
-// void		*checker(t_philo *philo);
-void	*checker(void *arg);
+void		*checker(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */

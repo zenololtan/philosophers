@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/26 22:28:37 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/07 13:41:18 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/07 16:45:47 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	uneven_forks(t_philo *philo, int n)
 int	grab_forks(t_philo *philo)
 {
 	int	n;
-	int mod;
-	
+	int	mod;
+
 	mod = 2;
 	n = philo->data->n_philos;
 	if (!(philo->data->n_philos % 2) || philo->data->n_philos > 20)
@@ -86,7 +86,7 @@ int	eat_(t_philo *philo)
 	if (gettimeofday(&philo->last_diner, NULL))
 		return (str_error(TIME_ERR));
 	pthread_mutex_unlock(&philo->data->m_status);
-	sleeper_func(philo->data->t_eat);
+	sleeper_func(philo, philo->data->t_eat);
 	philo->n_eaten += 1;
 	pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
 	pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
@@ -100,7 +100,7 @@ int	sleep_(t_philo *philo)
 	if (!philo->data->status || !philo->data->mutex_status)
 		return (1);
 	print_func(philo, "is sleeping\n");
-	sleeper_func(philo->data->t_sleep);
+	sleeper_func(philo, philo->data->t_sleep);
 	print_func(philo, "is thinking\n");
 	return (0);
 }

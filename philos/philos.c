@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:55:57 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/07 12:30:22 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/07 16:47:22 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@ void	*philo(void *ptr)
 	while (philo->data->status != dead && philo->data->mutex_status != dead)
 	{
 		if (eat_(philo) || sleep_(philo))
-		{
-			// printf("philo %i stop --\n", philo->philo);
 			return (NULL);
-		}
-			
 	}
-	// printf("philo %i stop\n", philo->philo);
 	return (NULL);
 }

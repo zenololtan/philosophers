@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/06 15:30:26 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/07 14:53:45 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void		sleeper_func(long int t_sleep);
 int			print_func(t_philo *philo, char *str);
 
 /* check_func.c */
-void		*checker(t_philo *philo);
+// void		*checker(t_philo *philo);
+void	*checker(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */

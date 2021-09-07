@@ -38,7 +38,7 @@ INC =		-Iinc
 all: $(NAME)
 
 debug: $(OBJ)
-	@clang $(FLAGS) -fsanitize=thread $(OBJ) $(INC) $(TAIL) -g -o $(NAME)
+	@clang $(FLAGS) -fsanitize=thread -O1 $(OBJ) $(INC) $(TAIL) -g -o $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $^ $(INC) $(TAIL) -o $@

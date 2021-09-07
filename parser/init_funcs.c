@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/06 15:17:40 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/07 11:29:32 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	init_philo_threads(t_philo *philos, t_data *data)
 	while (i < data->n_philos && data->n_eat != 0)
 	{
 		pthread_join(philos[i].ptid, NULL);
-		usleep(100);
+		// usleep(100);
 		i++;
 	}
 	return (0);

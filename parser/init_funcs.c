@@ -6,36 +6,11 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/07 14:53:22 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/08 12:11:39 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-
-// int	init_philo_threads(t_philo *philos, t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (gettimeofday(&data->start_time, NULL))
-// 		return (str_error(STRUCT_ERR));
-// 	while (i < data->n_philos && data->n_eat != 0)
-// 	{
-// 		philos[i].last_diner = data->start_time;
-// 		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
-// 			return (str_error(THREAD_ERR));
-// 		i++;
-// 	}
-// 	i = 0;
-// 	checker(philos);
-// 	while (i < data->n_philos && data->n_eat != 0)
-// 	{
-// 		pthread_join(philos[i].ptid, NULL);
-// 		// usleep(100);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 int	init_philo_threads(t_philo *philos, t_data *data)
 {
@@ -49,20 +24,45 @@ int	init_philo_threads(t_philo *philos, t_data *data)
 		philos[i].last_diner = data->start_time;
 		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
 			return (str_error(THREAD_ERR));
-		if (pthread_create(&philos[i].ctid, NULL, &checker, &philos[i]))
-			return (str_error(THREAD_ERR));
 		i++;
 	}
 	i = 0;
+	checker(philos);
 	while (i < data->n_philos && data->n_eat != 0)
 	{
 		pthread_join(philos[i].ptid, NULL);
-		usleep(100);
-		pthread_join(philos[i].ctid, NULL);
+		// usleep(100);
 		i++;
 	}
 	return (0);
 }
+
+// int	init_philo_threads(t_philo *philos, t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (gettimeofday(&data->start_time, NULL))
+// 		return (str_error(STRUCT_ERR));
+// 	while (i < data->n_philos && data->n_eat != 0)
+// 	{
+// 		philos[i].last_diner = data->start_time;
+// 		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
+// 			return (str_error(THREAD_ERR));
+// 		if (pthread_create(&philos[i].ctid, NULL, &checker, &philos[i]))
+// 			return (str_error(THREAD_ERR));
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (i < data->n_philos && data->n_eat != 0)
+// 	{
+// 		pthread_join(philos[i].ptid, NULL);
+// 		usleep(100);
+// 		pthread_join(philos[i].ctid, NULL);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int	init_philos(t_philo *philos, t_data *data)
 {

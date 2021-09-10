@@ -33,10 +33,13 @@ def get_time_of_message(line):
 
 def get_philo(line):
 	num = ""
-	for word in line.split(' ', 1)[1]:
-		for c in word:
-			if c.isdigit():
-				num = num + c
+	try:
+		for word in line.split(' ', 1)[1]:
+			for c in word:
+				if c.isdigit():
+					num = num + c
+	except:
+		return ""
 	return num
 
 start = time.time()
@@ -60,7 +63,7 @@ if not death in stdin_list[-2]:
 	print("no death")
 	exit(0)
 t = get_time_of_message(stdin_list[-2])
-philo = get_philo(stdin_list[-2]);
+philo = get_philo(stdin_list[-2])
 print("count down: " + str(countdown))
 print("time to die: " + str(death_time))
 print("time of death: " + t)
@@ -70,11 +73,15 @@ print("philo number: " + philo)
 last_val = 0
 t_between = 0
 for line in stdin_list:
-	if philo + eat in line or death in line:
-		print(bcolors.ENDC + "[" + line.strip('\n') + bcolors.ENDC + "]")
-		t_between = int(get_time_of_message(line)) - last_val
-		if t_between > death_time + 10:
-			print(bcolors.WARNING + "time between eats: " + str(t_between) + bcolors.ENDC)
-		else:
-			print("time between eats: " + str(t_between))
-		last_val = int(get_time_of_message(line))
+	try:
+		if int(get_philo(line)) == int(philo):
+			if eat in line or death in line:
+				print(bcolors.ENDC + "[" + line.strip('\n') + bcolors.ENDC + "]")
+				t_between = int(get_time_of_message(line)) - last_val
+				if t_between > death_time + 10:
+					print(bcolors.WARNING + "time between eats: " + str(t_between) + bcolors.ENDC)
+				else:
+					print("time between eats: " + str(t_between))
+				last_val = int(get_time_of_message(line))
+	except:
+		pass

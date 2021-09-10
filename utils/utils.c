@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 15:03:09 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 18:29:59 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/10 17:17:38 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	clear_all(t_data *data, t_philo *philos, char *str)
 			while (i > data->n_philos)
 			{
 				pthread_mutex_destroy(&data->forks[i]);
+				pthread_mutex_destroy(&philos[i].p_status);
 				i++;
 			}
 		}
-		pthread_mutex_destroy(&data->m_status);
 		pthread_mutex_destroy(&data->m_print);
 	}
 	free_data(data, philos);

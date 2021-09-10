@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/24 14:38:22 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/07 18:27:58 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/10 17:18:13 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	is_digits(char *str)
 
 int	valid(char *str)
 {
-	int val;
-	
+	int	val;
+
 	if (!is_digits(str) || ft_strlen(str) > 10 || \
 		(ft_strlen(str) > 1 && *str == '0'))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/08 12:11:54 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/10 17:17:23 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_data
 	int					mutex_status;
 	struct timeval		start_time;	
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		m_status;
 	pthread_mutex_t		m_print;
 }				t_data;
 
@@ -57,6 +56,7 @@ typedef struct s_philo
 	int					n_eaten;
 	pthread_t			ptid;
 	pthread_t			ctid;
+	pthread_mutex_t		p_status;
 	struct timeval		last_diner;
 	t_data				*data;
 }				t_philo;
@@ -94,9 +94,7 @@ void		sleeper_func(t_philo *philo, long int t_sleep);
 int			print_func(t_philo *philo, char *str);
 
 /* check_func.c */
-// void		*checker(void *arg);
-void	*checker(t_philo *philo);
-
+void		*checker(void *arg);
 
 /*-----------------------------------PHILOS-----------------------------------*/
 /* philos.C */

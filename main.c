@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:14:12 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/06 15:34:51 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/10 17:05:13 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	main(int argc, char **argv)
 		return (str_error(ARG_ERR));
 	if (init_data(&data, argc, argv))
 		return (1);
-	if (init_mutexes(&data))
-		return (clear_all(&data, NULL, MUTEX_ERR));
 	philos = (t_philo *)malloc(sizeof(*philos) * (data.n_philos));
 	if (!philos)
 		return (clear_all(&data, NULL, MALLOC_ERR));

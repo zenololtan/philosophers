@@ -54,10 +54,16 @@ if sys.argv[1]:
 if sys.argv[2]:
 	death_time = int(sys.argv[2])
 
+f = open("test.txt", "a")
+f.truncate(0)
+
 for line in sys.stdin:
 	if time.time() >= start + countdown:
 		break
 	stdin_list.append(line)
+	f.write(line)
+
+f.close()
 
 if not death in stdin_list[-2]:
 	print("no death")
@@ -85,3 +91,4 @@ for line in stdin_list:
 				last_val = int(get_time_of_message(line))
 	except:
 		pass
+print(stdin_list[-2].strip('\n'))

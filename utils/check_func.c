@@ -30,8 +30,10 @@ void	*unlocker(t_philo *philo, bool death, bool died)
 	}
 	else
 		philo->data->mutex_status = dead;
+	printf("yup\n");
 	pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
-	pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
+	if (n != 1)
+		pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
 	return (NULL);
 }
 

@@ -23,7 +23,6 @@ static int	get_mutexes(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->data->m_print))
 		return (0);
-	// if (died == false)
 	if (pthread_mutex_lock(&philo->p_status))
 		return (0);
 	return (1);
@@ -33,8 +32,7 @@ int	print_func(t_philo *philo, char *str, bool died)
 {
 	struct timeval	current;
 
-	printf("inside\n");
-	if (get_mutexes(philo))
+	if (!get_mutexes(philo))
 		return (mutex_error(philo->data));
 	if (died == false)
 		if (!philo->data->status || !philo->data->mutex_status)

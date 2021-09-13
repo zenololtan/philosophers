@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <philo.h>
-#include <errno.h>
 
 int	even_forks(t_philo *philo, int n)
 {
@@ -43,7 +42,6 @@ int	uneven_forks(t_philo *philo, int n)
 
 int	grab_forks(t_philo *philo)
 {
-	printf("inside\n");
 	if (!(philo->data->n_philos % 2) || philo->data->n_philos > 20)
 	{
 		if (!(philo->philo % 2) || philo->philo == philo->data->n_philos)
@@ -70,7 +68,6 @@ int	eat_(t_philo *philo)
 	int	n;
 
 	n = philo->data->n_philos;
-	printf("yuh\n");
 	if (grab_forks(philo))
 		return (1);
 	if (pthread_mutex_lock(&philo->p_status))

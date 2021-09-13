@@ -31,6 +31,5 @@ int	main(int argc, char **argv)
 	if (init_philo_threads(philos, &data))
 		return (clear_all(&data, philos, NULL));
 	free_data(&data, philos);
-	wait(NULL);
 	return (0);
 }

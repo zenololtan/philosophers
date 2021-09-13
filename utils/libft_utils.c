@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 11:20:31 by ztan          #+#    #+#                 */
-/*   Updated: 2021/08/07 18:14:31 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/13 14:46:46 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,6 @@ int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);
-	return (0);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	while (n != 0 && (*s1 != '\0' || *s2 != '\0'))
-	{
-		if (*s1 == *s2)
-		{
-			s1++;
-			s2++;
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		n--;
-	}
 	return (0);
 }
 

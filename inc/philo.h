@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/10 17:17:23 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/13 14:46:28 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct s_data
 	long int			t_eat;
 	long int			t_sleep;
 	int					n_eat;
-	int					status;
-	int					mutex_status;
+	enum e_values		status;
+	enum e_values		mutex_status;
 	struct timeval		start_time;	
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		m_print;
@@ -77,7 +77,7 @@ int			ft_isdigit(int c);
 int			ft_atoi(const char *str);
 size_t		ft_strlen(const char *s);
 void		ft_putnbr_fd(int n, int fd);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *str1, const char *str2);
 
 /* utils.c */
 int			str_error(char *str);
@@ -91,7 +91,7 @@ long int	passed_time_mili(struct timeval start, struct timeval current);
 void		sleeper_func(t_philo *philo, long int t_sleep);
 
 /* print_func.c */
-int			print_func(t_philo *philo, char *str);
+int			print_func(t_philo *philo, char *str, bool died);
 
 /* check_func.c */
 void		*checker(void *arg);

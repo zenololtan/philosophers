@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/10 17:17:45 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/13 13:55:25 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,9 @@ int	init_philos(t_philo *philos, t_data *data)
 int	init_mutexes(t_data *data)
 {
 	int		i;
-	int		amount;
 
 	i = 0;
-	if (data->n_philos == 1)
-		amount = 2;
-	else
-		amount = data->n_philos;
-	while (i < amount)
+	while (i < data->n_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (1);

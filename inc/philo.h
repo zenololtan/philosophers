@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/06/16 13:57:24 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/13 14:46:28 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/15 13:03:25 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define STRUCT_ERR		"Could not initialise structs\n"
 # define MUTEX_ERR		"A mutex failed\n"
 # define THREAD_ERR		"Could not initialise a thread\n"
-# define TIME_ERR		"Could not get the time\n"
 
 enum e_values
 {

@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/14 23:05:53 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/15 00:38:42 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/15 13:21:44 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 int unlock_forks(t_philo *philo, bool mutex_error, char *str)
 {
 	pthread_mutex_unlock(&philo->data->forks[philo->philo - 1]);
-	pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->philo % \
-		philo->data->n_philos]);
+	pthread_mutex_unlock(&philo->data->forks[philo->philo % philo->data->n_philos]);
 	if (mutex_error == true)
 		return (mutex_err(philo));
 	if (str)
@@ -59,8 +58,7 @@ int eat_(t_philo *philo)
 		return (mutex_err(philo));
 	if (pthread_mutex_lock(&philo->p_status))
 		return (unlock_forks(philo, true, NULL));
-	if (gettimeofday(&philo->last_diner, NULL))
-		return (unlock_forks(philo, false, TIME_ERR));
+	gettimeofday(&philo->last_diner, NULL);
 	philo->n_eaten += 1;
 	pthread_mutex_unlock(&philo->p_status);
 	print_func(philo, "is eating", false);

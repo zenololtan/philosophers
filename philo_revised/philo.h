@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/14 22:01:12 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/15 00:00:55 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/15 11:17:46 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_philo
 	int					philo;
 	int					n_eaten;
 	pthread_t			ptid;
-	pthread_t			ctid;
 	pthread_mutex_t		p_status;
 	struct timeval		last_diner;
 	t_data				*data;

@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 14:22:15 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/13 14:47:00 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/15 13:02:53 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	*checker(void *arg)
 			return (unlocker(philo, false, false));
 		if (!philo->data->status || !philo->data->mutex_status)
 			return (unlocker(philo, false, true));
-		if (gettimeofday(&curr, NULL))
-			return (str_error_null(TIME_ERR));
+		gettimeofday(&curr, NULL);
 		if (passed_time_mili(philo->last_diner, curr) >= philo->data->t_die)
 			return (unlocker(philo, true, false));
 		if (philo->n_eaten >= philo->data->n_eat && philo->data->n_eat != -1)

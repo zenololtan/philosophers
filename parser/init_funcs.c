@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/03 20:16:13 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/13 13:55:25 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/15 13:01:56 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	init_philo_threads(t_philo *philos, t_data *data)
 	int	i;
 
 	i = 0;
-	if (gettimeofday(&data->start_time, NULL))
-		return (str_error(STRUCT_ERR));
+	gettimeofday(&data->start_time, NULL);
 	while (i < data->n_philos && data->n_eat != 0)
 	{
 		philos[i].last_diner = data->start_time;

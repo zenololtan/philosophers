@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/14 22:01:17 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/15 00:40:38 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/15 13:01:26 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	print_func(t_philo *philo, char *str, bool died)
 	if (died == false)
 		if (!philo->data->status || !philo->data->mutex_status)
 			return (unlock_mutexes(philo));
-	if (gettimeofday(&current, NULL))
-		return (str_error(TIME_ERR));
+	if (died == false)
+		pthread_mutex_unlock(&philo->p_status);
+	gettimeofday(&current, NULL);
 	passed = passed_time_mili(philo->data->start_time, current);
-	pthread_mutex_unlock(&philo->p_status);
 	if (died == true)
 		printf("%s[%i] %i %s%s\n", RED, passed, philo->philo, str, RESET);
 	else

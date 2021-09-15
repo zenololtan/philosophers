@@ -6,7 +6,7 @@
 /*   By: ztan <ztan@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 14:22:11 by ztan          #+#    #+#                 */
-/*   Updated: 2021/09/13 15:00:02 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/15 13:03:08 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	print_func(t_philo *philo, char *str, bool died)
 	if (died == true)
 		write(STDOUT_FILENO, RED, ft_strlen(RED));
 	write(STDOUT_FILENO, "[", 1);
-	if (gettimeofday(&current, NULL))
-		return (str_error(TIME_ERR));
+	gettimeofday(&current, NULL);
 	ft_putnbr_fd(passed_time_mili(philo->data->start_time, current), \
 		STDOUT_FILENO);
 	write(STDOUT_FILENO, "] ", 2);

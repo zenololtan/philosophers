@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/14 22:01:15 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/15 00:33:49 by zenotan       ########   odam.nl         */
+/*   Updated: 2021/09/15 13:35:04 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,13 @@ void	checker(t_philo *philo)
 	i= 0;
 	while (1)
 	{
+		usleep(100);
 		if (pthread_mutex_lock(&philo[i].p_status))
 			return (unlocker(&philo[i], philo->data->n_philos, false, false));
 		if (!philo[i].data->status || !philo[i].data->mutex_status || \
 			(philo->n_eaten >= philo->data->n_eat && philo->data->n_eat != -1))
 			return (unlocker(&philo[i], philo->data->n_philos, true, true));
-		if (gettimeofday(&curr, NULL))
-		{
-			printf("ERROR: %s", TIME_ERR);
-			return ;
-		}
+		gettimeofday(&curr, NULL);
 		if (passed_time_mili(philo[i].last_diner, curr) >= philo[i].data->t_die)
 			return (unlocker(&philo[i], philo->data->n_philos, true, false));
 		pthread_mutex_unlock(&philo[i].p_status);
@@ -61,8 +58,6 @@ void	*philo(void *ptr)
 	t_philo	*philo;
 
 	philo = ptr;
-	if (philo->philo % 2)
-		usleep(100);
 	while (philo->data->status && philo->data->mutex_status)
 	{
 		if (eat_(philo) || sleep_(philo))
@@ -73,24 +68,32 @@ void	*philo(void *ptr)
 
 int	init_philo_threads(t_philo *philos, t_data *data)
 {
-	int	i;
+	int			i;
+	pthread_t	*ptid;
 
 	i = 0;
-	if (gettimeofday(&data->start_time, NULL))
-		return (str_error(STRUCT_ERR));
+	ptid = (pthread_t *)malloc(sizeof(*ptid) * data->n_philos);
+	if (!ptid)
+		return (str_error(MALLOC_ERR));
+	gettimeofday(&data->start_time, NULL);
 	while (i < data->n_philos && data->n_eat != 0)
 	{
 		philos[i].last_diner = data->start_time;
-		if (pthread_create(&philos[i].ptid, NULL, &philo, &philos[i]))
+		if (pthread_create(&ptid[i], NULL, &philo, &philos[i]))
+		{
+			free(ptid);
 			return (str_error(THREAD_ERR));
+		}
+		usleep(100);
 		i++;
 	}
 	checker(philos);
 	i = 0;
 	while (i < data->n_philos && data->n_eat != 0)
 	{
-		pthread_join(philos[i].ptid, NULL);
+		pthread_join(ptid[i], NULL);
 		i++;
 	}
+	free(ptid);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zenotan <zenotan@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/07/26 22:28:37 by zenotan       #+#    #+#                 */
-/*   Updated: 2021/09/13 14:59:02 by ztan          ########   odam.nl         */
+/*   Updated: 2021/09/15 13:02:39 by ztan          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ int	eat_(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->forks[philo->philo % n]);
 		return (mutex_error(philo->data));
 	}
-	if (gettimeofday(&philo->last_diner, NULL))
-		return (str_error(TIME_ERR));
+	gettimeofday(&philo->last_diner, NULL);
 	pthread_mutex_unlock(&philo->p_status);
 	print_func(philo, "is eating\n", false);
 	sleeper_func(philo, philo->data->t_eat);
